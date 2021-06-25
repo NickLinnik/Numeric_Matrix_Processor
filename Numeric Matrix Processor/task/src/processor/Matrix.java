@@ -127,7 +127,8 @@ public class Matrix {
     }
 
     public double getDeterminant() {
-        if (matrix.length == 2 && matrix[0].length == 2) {
+        if (matrix.length != matrix[0].length) throw new IllegalArgumentException("Only square matrices have the determinant.");
+        if (matrix.length == 2) {
             return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
         }
         double result = 0;
@@ -137,10 +138,31 @@ public class Matrix {
         return result;
     }
 
+    public Matrix inverse() {
+        double det = this.getDeterminant();
+        if (det == 0) throw new NullPointerException("This matrix doesn't have an inverse.");
+        Matrix cofactors = new Matrix(new double[matrix.length][matrix.length]);
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix.length; j++) {
+                cofactors.matrix[i][j] = ((i + j) % 2 == 1 ? -1 : 1) * this.getMinor(i, j).getDeterminant();
+            }
+        }
+        return cofactors.transposeAlongMainDiagonal().multiply(1 / det);
+    }
+
     public void print() {
         for (double[] row : matrix) {
             for (double col : row) {
                 System.out.print(col - (int) col == 0 ? (int) col + " " : col + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public void print(int numsAfterPoint) {
+        for (double[] row : matrix) {
+            for (double col : row) {
+                System.out.printf("%." + numsAfterPoint + "f ", col - (int) col == 0 ? (int) col : col);
             }
             System.out.println();
         }

@@ -10,6 +10,7 @@ public class Main {
                     "3. Multiply matrices\n" +
                     "4. Transpose matrix\n" +
                     "5. Calculate a determinant\n" +
+                    "6. Inverse matrix\n" +
                     "0. Exit\n" +
                     "Your choice: ");
             try {
@@ -28,8 +29,9 @@ public class Main {
                         cols = scanner.nextInt();
                         System.out.println("Enter second matrix:");
                         var secondMatrix = new Matrix(rows, cols);
+                        var resultMatrix = firstMatrix.add(secondMatrix);
                         System.out.println("The result is:");
-                        firstMatrix.add(secondMatrix).print();
+                        resultMatrix.print();
                         break;
 
                     case 2:
@@ -40,8 +42,9 @@ public class Main {
                         var matrix = new Matrix(rows, cols);
                         System.out.print("Enter constant:");
                         int num = scanner.nextInt();
+                        resultMatrix = matrix.multiply(num);
                         System.out.println("The result is:");
-                        matrix.multiply(num).print();
+                        resultMatrix.print();
                         break;
 
                     case 3:
@@ -55,8 +58,9 @@ public class Main {
                         cols = scanner.nextInt();
                         System.out.println("Enter second matrix:");
                         secondMatrix = new Matrix(rows, cols);
+                        resultMatrix = firstMatrix.multiply(secondMatrix);
                         System.out.println("The result is:");
-                        firstMatrix.multiply(secondMatrix).print();
+                        resultMatrix.print();
                         break;
 
                     case 4:
@@ -97,9 +101,22 @@ public class Main {
                         cols = scanner.nextInt();
                         System.out.println("Enter matrix:");
                         matrix = new Matrix(rows, cols);
-                        System.out.println("The result is:\n" + matrix.getDeterminant());
+                        double det = matrix.getDeterminant();
+                        System.out.println("The result is:\n" + det);
+                        break;
+
+                    case 6:
+                        System.out.print("Enter matrix size: ");
+                        rows = scanner.nextInt();
+                        cols = scanner.nextInt();
+                        System.out.println("Enter matrix:");
+                        matrix = new Matrix(rows, cols);
+                        resultMatrix = matrix.inverse();
+                        System.out.println("The result is:");
+                        resultMatrix.print(2);
+                        break;
                 }
-            } catch (IllegalArgumentException e) {
+            } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         }
